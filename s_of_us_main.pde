@@ -334,8 +334,7 @@ void displayModelInstructions() {
 // Helper: determine configuration JSON path from environment or fall back to default
 String getConfig() {
   String conf_path = System.getenv("ULTRASONIX_CONF");
-  //String defaultPath = "/mnt/3AB8D1B3B8D16DBF/BioSonixData/US-Imgs/Acquisition_convex_liver_breast_kidney/Insertion/04/config_full_2D.json";
-  String defaultPath = "/mnt/3AB8D1B3B8D16DBF/BioSonixData/US-Imgs/Acquisition_convex_liver_breast_kidney/Insertion/31/config_31.json";
+  String defaultPath = "config_example.json";
 
   // If the environment variable isn't set, try the repo-local default path.
   if (conf_path == null) {
