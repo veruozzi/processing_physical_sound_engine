@@ -1,0 +1,43 @@
+# ---- Processing exported applications ----
+# File > Export Application creates a platform-specific subfolder
+# right inside the sketch folder. Naming varies by Processing version
+# (older: application.linux64 / .windows64 / .macosx,
+#  newer: <sketchname>.linux-amd64 / .windows-amd64 / .macos-x86_64 / etc.)
+application.*/
+*.linux-amd64/
+*.linux-arm64/
+*.linux64/
+*.windows-amd64/
+*.windows-arm64/
+*.windows64/
+*.macos-x86_64/
+*.macos-aarm64/
+*.macosx/
+
+# ---- Compiled Java / Processing build output ----
+*.class
+build/
+out/
+bin/
+
+# ---- Runtime output (recordings) ----
+# Generated each session by 'r'/'c' keys or the /record/start OSC message.
+# Remove these lines if you want to version specific recordings.
+*.wav
+miphys_recording_*.wav
+minim_recording_*.wav
+
+# ---- Python (generate_topology.py) ----
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# ---- Editor / OS junk ----
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.vscode/
+.idea/
