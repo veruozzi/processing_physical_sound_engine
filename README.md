@@ -1,6 +1,6 @@
-# Sound of Ultrasound (s_of_us)
+# Physics-based sound renderer (Processing & miPhysics)
 
-Real-time physical-modeling sonification of ultrasound-derived mass-spring topologies, built on [Processing 4](https://processing.org/) and the [miPhysics](https://github.com/mi-creative/miPhysics_JAVA) engine. A 2D/3D mesh of masses and springs is loaded from a JSON topology file, simulated in real time, rendered in an interactive 3D view, and sonified through direct audio synthesis (tapping mass velocities/forces, not sample playback).
+Real-time physical-modeling sonification of anatomy-derived mass-spring topologies, built on [Processing 4](https://processing.org/) and the [miPhysics](https://github.com/mi-creative/miPhysics_Processing) engine. A 2D/3D mesh of masses and springs is loaded from a JSON topology file, simulated in real time, rendered in an interactive 3D view, and sonified through direct audio synthesis (tapping mass velocities/forces, not sample playback).
 
 Maintainer: veronica.ruozzi@tum.de
 Tested on: **Ubuntu 24.04**
@@ -15,7 +15,7 @@ Tested on: **Ubuntu 24.04**
 - **Interactive 3D visualization** — `PeasyCam`-driven orbit/pan/zoom camera, with the mesh automatically centered on its own centroid regardless of rotation.
 - **Two independent control tracks** — trigger drivers directly from the keyboard for quick local testing, or drive everything remotely over OSC from a Python (or any OSC-capable) process. See [Usage](#usage) below.
 - **WAV recording** — start/stop full-session recording, or a quick fixed-length capture, from the keyboard or remotely over OSC.
-- **Topology generator** (`generate_topology.py`) — a standalone Python utility that builds a masses/springs JSON topology from BioSonix-style ultrasound config files.
+- **Topology generator** (`generate_topology.py`) — a standalone Python utility that builds a masses/springs JSON topology from BioSonix-style config files.
 
 ---
 
@@ -38,7 +38,7 @@ Tested on: **Ubuntu 24.04**
 | `ConfigManager.pde` | Small JSON config wrapper (drivers/listeners/config accessors) available for use elsewhere in the sketch. |
 | `MiPhysicsWavRecorder.java` | Taps the audio client's output blocks and writes them to a 16-bit PCM WAV file. |
 | `miTappedPhyAudioClient.java` | Extends miPhysics' audio client with a tap API, debug tone injection, and listener axis/force mirroring. |
-| `generate_topology.py` | Standalone script: builds a `masses`/`springs` topology JSON from a BioSonix-style ultrasound config. |
+| `generate_topology.py` | Standalone script: builds a `masses`/`springs` topology JSON from a BioSonix-style config. |
 
 ---
 
@@ -68,9 +68,9 @@ The sketch expects a single JSON file with this shape:
 - `sonification_set_up.listeners` — mass IDs tapped for audio output.
 - Positions are centered on the mesh's own centroid and have X/Y swapped at load time for the on-screen orientation; the original (image-space) coordinates are preserved unmodified in memory for any future picking/mapping use.
 
-**Coordinate convention:** the model plane — which is also the source ultrasound image plane — is the **XY plane** (mass `z` is `0` for every node in a 2D topology). Excitation is applied **out of that plane, along Z**, via the OSC track's `/magnitudeMultipleToggle` message. This is the physically meaningful direction to push the mesh: an in-plane (X/Y) force doesn't produce the kind of transverse motion the springs are set up to resonate with. Note that the keyboard shortcut (`1`–`9`, Track 1) currently applies its impulse along X/Y rather than Z — see the caveat in [Track 1](#track-1--fast-run-standalone-keyboard-driven).
+**Coordinate convention:** the model plane — which might also be the source ultrasound image plane, or the main axis of an interactive interaction domain — is the **XY plane** (mass `z` is `0` for every node in a 2D topology). Excitation is applied **out of that plane, along Z**, via the OSC track's `/magnitudeMultipleToggle` message. This is the physically meaningful direction to push the mesh: an in-plane (X/Y) force doesn't produce the kind of transverse motion the springs are set up to resonate with. Note that the keyboard shortcut (`1`–`9`, Track 1) currently applies its impulse along X/Y rather than Z — see the caveat in [Track 1](#track-1--fast-run-standalone-keyboard-driven).
 
-`generate_topology.py` can produce this file from a BioSonix-style ultrasound acquisition config:
+`generate_topology.py` can produce this file from a BioSonix-style acquisition config:
 
 ```bash
 python3 generate_topology.py --config /path/to/config.json --out topology.json
